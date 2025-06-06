@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM Management - User Portal</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="user.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="user.js"></script>
+</head>
+
+<body>
+    <header class="user-header">
+        <h1 class="user-welcome" style="color: white;">Welcome, <span id="userName">User</span></h1>
+        <nav class="user-nav">
+            <button onclick="logout()" class="user-nav-btn logout">Logout</button>
+        </nav>
+    </header>
+
+    <div class="user-container">
+        <main class="user-content">
+            <!-- Gym Information Section -->
+            <section id="gym-info-section" class="user-card active-section">
+                <h2 class="section-title">Gym Information</h2>
+
+                <div class="gym-info-grid">
+                    <div>
+                        <h3>Contact Information</h3>
+                        <div class="info-item">
+                            <span class="info-label">Address:</span>
+                            <span class="info-value" id="gymAddress">123 Fitness Street, Health City, HC 12345</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone:</span>
+                            <span class="info-value" id="gymPhone">(123) 456-7890</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email:</span>
+                            <span class="info-value" id="gymEmail">info@gymmanagement.com</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Operating Hours</h3>
+                        <div class="info-item">
+                            <span class="info-label">Monday - Friday:</span>
+                            <span class="info-value" id="weekdayHours">6:00 AM - 10:00 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Saturday:</span>
+                            <span class="info-value" id="saturdayHours">8:00 AM - 8:00 PM</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Sunday:</span>
+                            <span class="info-value" id="sundayHours">9:00 AM - 6:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Facilities</h3>
+                        <div class="info-item">
+                            <span class="info-label">Cardio Area:</span>
+                            <span class="info-value">Treadmills, Ellipticals, Stationary Bikes</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Weight Training:</span>
+                            <span class="info-value">Free Weights, Machines, Functional Training</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Classes:</span>
+                            <span class="info-value">Yoga, HIIT, Spin, Zumba</span>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Recent Announcements</h3>
+                <div id="announcementsList">
+                    <div class="info-item">
+                        <span class="info-label">July 15, 2023:</span>
+                        <span class="info-value">New yoga classes starting next week! Sign up at the front desk.</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">July 10, 2023:</span>
+                        <span class="info-value">Gym will be closed on July 20th for maintenance.</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- My Records Section -->
+            <section id="my-records-section" class="user-card">
+                <h2 class="section-title">My Records</h2>
+
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchRecords" placeholder="Search records...">
+                    <button class="search-btn" onclick="searchRecords()">Search</button>
+                </div>
+
+                <table class="records-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Activity</th>
+                            <th>Duration</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recordsTableBody">
+                        <tr>
+                            <td>2023-07-15</td>
+                            <td>Weight Training</td>
+                            <td>45 mins</td>
+                            <td>Focused on upper body</td>
+                        </tr>
+                        <tr>
+                            <td>2023-07-14</td>
+                            <td>Cardio</td>
+                            <td>30 mins</td>
+                            <td>Treadmill interval training</td>
+                        </tr>
+                        <tr>
+                            <td>2023-07-12</td>
+                            <td>Yoga Class</td>
+                            <td>60 mins</td>
+                            <td>Beginner level</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div id="noRecordsMessage" class="no-records" style="display: none;">
+                    No records found matching your search.
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> GYM Management System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

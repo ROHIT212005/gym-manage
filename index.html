@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM Management System - Login</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+</head>
+
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p>Processing, please wait...</p>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <i class="fas fa-dumbbell"></i>
+            <h1>GYM Management System</h1>
+            <p>Digital solutions for modern fitness centers</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="loginTab">Login</div>
+                    <div class="auth-tab" id="registerTab">Register</div>
+                </div>
+
+                <div class="auth-content">
+                    <!-- Login Form -->
+                    <form id="loginForm" class="auth-form active">
+                        <div class="form-group">
+                            <label for="loginEmail">Email</label>
+                            <input type="email" id="loginEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginRole">Role</label>
+                            <select id="loginRole" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="member">Member</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn">Login</button>
+                        <div id="loginError" class="error-message"></div>
+                    </form>
+
+                    <!-- Registration Form -->
+                    <form id="registerForm" class="auth-form">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email</label>
+                            <input type="email" id="registerEmail" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" class="form-control" required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="registerConfirmPassword">Confirm Password</label>
+                            <input type="password" id="registerConfirmPassword" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerRole">Role</label>
+                            <select id="registerRole" class="form-control" required>
+                                <option value="">Select Role</option>
+                                <option value="member">Member</option>
+                                <option value="user">User</option>
+                            </select>
+                        </div>
+
+                        <div id="memberFields" style="display: none;">
+                            <div class="form-group">
+                                <label for="registerPhone">Phone Number</label>
+                                <input type="tel" id="registerPhone" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="registerPackage">Package</label>
+                                <select id="registerPackage" class="form-control">
+                                    <option value="">Select Package</option>
+                                    <option value="basic">Basic</option>
+                                    <option value="premium">Premium</option>
+                                    <option value="platinum">Platinum</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn">Register</button>
+                        <div id="registerError" class="error-message"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Digital Receipts</h3>
+                <p>No more lost paper receipts - all your payment records stored securely online.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Real-time Notifications</h3>
+                <p>Get instant updates about gym hours, special events, and payment reminders.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Access your membership details anytime, anywhere from any device.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> GYM Management System. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="login.js"></script>
+</body>
+</html>

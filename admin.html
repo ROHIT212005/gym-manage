@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GYM Management - Admin</title>
+  <link rel="stylesheet" href="admin.css">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="admin.js"></script>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <i class="fas fa-dumbbell"></i>
+      <h1>GYM Management</h1>
+    </div>
+    <nav>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#" class="nav-link active" data-section="membersSection"><i class="fas fa-users"></i> Members</a>
+        </li>
+        <li><a href="#" class="nav-link" data-section="billSection"><i class="fas fa-receipt"></i> Billing</a></li>
+        <li><a href="#" class="nav-link" data-section="notificationsSection"><i class="fas fa-bell"></i>
+            Notifications</a></li>
+        <li><a href="#" class="nav-link" data-section="supplementsSection"><i class="fas fa-pills"></i> Supplements</a>
+        </li>
+        <li><a href="#" class="nav-link" data-section="dietPlansSection"><i class="fas fa-utensils"></i> Diet Plans</a>
+        </li>
+        <li><button onclick="logout()" class="logout-btn">Logout</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section id="membersSection">
+      <h2>Members Management</h2>
+      <form id="addMemberForm">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="tel" name="phone" placeholder="Phone" required>
+        <select name="package" required>
+          <option value="" disabled selected>Select Package</option>
+          <option value="basic">Basic</option>
+          <option value="premium">Premium</option>
+          <option value="platinum">Platinum</option>
+        </select>
+        <input type="date" name="joinDate" required>
+        <button type="submit">Add Member</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Package</th>
+            <th>Join Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="membersTable"></tbody>
+      </table>
+    </section>
+
+    <section id="billSection">
+      <h2>Billing</h2>
+    
+      <form id="createBillForm">
+        <select id="billMemberSelect" required>
+          <option value="" disabled selected>Select Member</option>
+          <!-- Members will be loaded here dynamically -->
+        </select>
+        <input type="text" id="billPackage" placeholder="Package" required>
+        <input type="date" id="billDate" required>
+    
+        <h3>Add Bill Items</h3>
+        <div id="billItemsContainer">
+          <div class="billItem">
+            <input type="text" class="itemName" placeholder="Item Name" required>
+            <input type="number" class="itemQty" placeholder="Quantity" required>
+            <input type="number" class="itemPrice" placeholder="Price" required>
+          </div>
+        </div>
+    
+        <button type="button" onclick="addBillItem()">+ Add Item</button>
+        <button type="submit">Create Bill</button>
+      </form>
+    
+      <div id="generatedBill" style="display: none; margin-top: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 10px;">
+        <h3>Bill Details</h3>
+        <p><strong>Member Name:</strong> <span id="displayMemberName"></span></p>
+        <p><strong>Package:</strong> <span id="displayPackage"></span></p>
+        <p><strong>Date:</strong> <span id="displayDate"></span></p>
+    
+        <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; margin-top: 15px;">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="billItemsTable"></tbody>
+        </table>
+    
+        <p style="text-align: right; margin-top: 10px;"><strong>Total Amount:</strong> ₹<span id="displayTotalAmount"></span></p>
+      </div>
+    </section>
+
+
+    <section id="notificationsSection">
+      <h2>Send Notification</h2>
+      <form id="sendNotificationForm">
+        <div class="form-group">
+          <textarea id="notificationMessage" placeholder="Enter notification message" name="message" required></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="recipientType">Send to:</label>
+          <select id="recipientType" name="recipientType">
+            <option value="all">All Members</option>
+            <option value="selected">Selected Members</option>
+          </select>
+        </div>
+        
+        <div class="form-group" id="memberSelectionGroup" style="display: none;">
+          <label>Select Members:</label>
+          <div id="membersCheckboxList" class="checkbox-list"></div>
+        </div>
+        
+        <button type="submit" id="sendNotificationBtn">Send Notification</button>
+      </form>
+    
+      <h3>Recent Notifications</h3>
+      <ul id="notificationsList"></ul>
+    </section>
+
+    <section id="supplementsSection">
+      <h2>Supplement Store</h2>
+      <form id="addSupplementForm">
+        <input type="text" name="name" id="supplementName" placeholder="Name" required>
+        <input type="text" name="description" id="supplementDescription" placeholder="Description" required>
+        <input type="number" name="price" id="supplementPrice" placeholder="Price" min="0" step="0.01" required>
+        <input type="number" name="stock" id="supplementStock" placeholder="Stock Quantity" min="0" required>
+        <button type="submit">Add Supplement</button>
+      </form>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="supplementsTable"></tbody>
+      </table>
+    </section>
+
+
+    <section id="dietPlansSection">
+      <h1>Diet Plans</h1>
+
+      <form id="addDietPlanForm">
+        <h2>Add Diet Plan</h2>
+        <select id="name" required>
+          <option value="" disabled selected>Select a Diet Plan</option>
+          <option value="Weight Loss Starter">Weight Loss Starter</option>
+          <option value="Keto Kickstart">Keto Kickstart</option>
+          <option value="Muscle Builder">Muscle Builder</option>
+          <option value="High Protein Plan">High Protein Plan</option>
+          <option value="Low Carb Lean">Low Carb Lean</option>
+          <option value="Gluten-Free Fuel">Gluten-Free Fuel</option>
+          <option value="Vegan Vitality">Vegan Vitality</option>
+          <option value="Intermittent Fasting Guide">Intermittent Fasting Guide</option>
+          <option value="Balanced Lifestyle Plan">Balanced Lifestyle Plan</option>
+          <option value="Paleo Power">Paleo Power</option>
+          <option value="Diabetic-Friendly Diet">Diabetic-Friendly Diet</option>
+          <option value="Heart Healthy Plan">Heart Healthy Plan</option>
+          <option value="Quick Fat Burn">Quick Fat Burn</option>
+          <option value="Mass Gainer Plan">Mass Gainer Plan</option>
+          <option value="Detox Cleanse">Detox Cleanse</option>
+          <option value="Athlete’s Energy Plan">Athlete’s Energy Plan</option>
+          <option value="Beginner’s Fitness Fuel">Beginner’s Fitness Fuel</option>
+          <option>Low-Calorie Control</option>
+          <option>Mediterranean Magic</option>
+          <option>Post-Workout Recovery Plan</option>
+        </select>
+        <textarea id="description" placeholder="Description" required></textarea>
+        <input type="number" id="calories" placeholder="Calories" required>
+        <input type="text" id="duration" placeholder="Duration (e.g., 4 weeks)" required>
+        <select id="difficulty" required>
+          <option value="" disabled selected>Select Difficulty</option>
+          <option value="Beginner">Beginner</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Advanced">Advanced</option>
+        </select>
+        <button type="submit">Add Plan</button>
+      </form>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Plan Name</th>
+            <th>Description</th>
+            <th>Calories</th>
+            <th>Duration</th>
+            <th>Difficulty</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="dietPlansTable"></tbody>
+      </table>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="currentYear"></span> GYM Management System. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

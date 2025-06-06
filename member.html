@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GYM Management - Member Portal</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="member.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="member.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <i class="fas fa-dumbbell"></i>
+            <h1>GYM Management</h1>
+        </div>
+        <nav>
+            <button onclick="logout()" class="logout-btn">Logout</button>
+        </nav>
+    </header>
+
+    <div class="member-dashboard container">
+        <aside class="member-sidebar">
+            <div class="member-profile">
+                <h2 id="memberName">John Doe</h2>
+                <p id="memberPackage">Premium Member</p>
+            </div>
+
+            <ul class="member-nav">
+                <li><a href="#" class="active" data-section="billReceipts"
+                        onclick="showSection('billReceipts')"><i>💰</i> My Bills</a></li>
+                <li><a href="#" onclick="showSection('billNotifications')"><i>🔔</i> Notifications</a></li>
+                <li><a href="#" onclick="showSection('profile-section')"><i>👤</i> My Profile</a></li>
+            </ul>
+        </aside>
+
+        <main class="member-content">
+            <!-- Bill Receipts Section -->
+            <div class="content-section" id="billReceipts">
+                <h2><i class="fas fa-receipt"></i> Your Bill Receipts</h2>
+                <div class="search-filter">
+                    <input type="text" id="receiptSearch" placeholder="Search receipts...">
+                    <select id="receiptFilter">
+                        <option value="all">All</option>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="receipts-list" id="receiptsList">
+                    <!-- Receipts will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Bill Notifications Section -->
+            <div class="content-section" id="billNotifications" style="display: none;">
+                <h2><i class="fas fa-bell"></i> Bill Notifications</h2>
+                <div class="notifications-list" id="notificationsList">
+                    <!-- Notifications will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Profile Section -->
+            <section id="profile-section" style="display: none;">
+                <h2 class="section-title">My Profile</h2>
+                <div class="profile-info">
+                    <div class="info-row">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value" id="profileName">John Doe</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="profileEmail">john@example.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value" id="profilePhone">+1 234 567 890</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Membership Package:</span>
+                        <span class="info-value" id="profilePackage">Premium ($80/month)</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Join Date:</span>
+                        <span class="info-value" id="profileJoinDate">15 Jan 2023</span>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="showUpdateProfileForm()">Update Profile</button>
+
+                <form id="updateProfileForm" style="display: none; margin-top: 2rem;">
+                    <div class="form-group">
+                        <label for="updateName">Full Name</label>
+                        <input type="text" id="updateName" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePhone">Phone Number</label>
+                        <input type="tel" id="updatePhone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="updatePackage">Membership Package</label>
+                        <select id="updatePackage" class="form-control">
+                            <option value="basic">Basic ($50/month)</option>
+                            <option value="premium">Premium ($80/month)</option>
+                            <option value="platinum">Platinum ($120/month)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn" onclick="updateProfile()">Save Changes</button>
+                    <button type="button" class="btn" onclick="cancelUpdateProfile()">Cancel</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> GYM Management System. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

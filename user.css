@@ -1,0 +1,268 @@
+ /* User Portal Specific Styles */
+ * {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Rubik', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #1a2e35, #0d1b21);
+    color: #f5f7fa;
+    line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.user-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    flex: 1;
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #15232d;
+    color: #4ecdc4;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.user-welcome {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.user-nav {
+    display: flex;
+    gap: 1rem;
+}
+
+.user-nav-btn {
+    padding: 0.75rem 1.5rem;
+    background: #1a2e35;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-nav-btn:hover {
+    background: #2c3e50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-nav-btn:active {
+    transform: translateY(0);
+}
+
+.user-nav-btn.logout {
+    background: #e53e3e;
+}
+
+.user-nav-btn.logout:hover {
+    background: #c53030;
+}
+
+.user-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.user-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    color: #2d3748;
+}
+
+.section-title {
+    color: #1a2e35;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #4ecdc4;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.gym-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    margin-bottom: 1.5rem;
+}
+
+.info-label {
+    font-weight: 600;
+    color: #2d3748;
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.info-value {
+    color: #4a5568;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    border-left: 4px solid #4ecdc4;
+}
+
+.records-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.records-table th,
+.records-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.records-table th {
+    background: #4ecdc4;
+    color: white;
+    font-weight: 600;
+}
+
+.records-table tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.records-table tr:hover {
+    background: rgba(78, 205, 196, 0.1);
+}
+
+.search-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: #fff;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #4ecdc4;
+    box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+}
+
+.search-btn {
+    padding: 0.75rem 1.5rem;
+    background: #1a2e35;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+    background: #2c3e50;
+    transform: translateY(-2px);
+}
+
+.search-btn:active {
+    transform: translateY(0);
+}
+
+.no-records {
+    text-align: center;
+    padding: 2rem;
+    color: #4ecdc4;
+    font-style: italic;
+}
+
+footer {
+    background-color: #15232d;
+    color: #a0aec0;
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .user-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        width: 144%;
+    }
+
+    .user-nav {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .user-nav-btn {
+        flex: 1;
+        min-width: 120px;
+        text-align: center;
+    }
+
+    .gym-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    footer {
+        width: 144%;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-header {
+        padding: 1rem;
+    }
+
+    .user-welcome {
+        font-size: 1.2rem;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .search-container {
+        flex-direction: column;
+    }
+
+    .search-btn {
+        width: 100%;
+    }
+}
